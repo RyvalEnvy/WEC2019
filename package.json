@@ -1,0 +1,12 @@
+{
+  "name": "WEC2019",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/RyvalEnvy/WEC2019.git",
+  "author": "Kiran Edwardson <ryval.edwardson@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "create-react-app": "^3.0.1",
+    "react": "^16.8.6"
+  }
+}
