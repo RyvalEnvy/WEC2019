@@ -9,13 +9,15 @@ class TournamentBracket extends React.Component{
     this.state = {
       round1:[],
       rounds: {},
+      ScoreSheet: [['team1','team2',5,7],['team3','team4',6,1],['team5','team6',1,2],['team7','team8',6,4]],
       playerList:['Eddie','Liam','Paul','Kiran'],
       columns:1,
     }
     this.SetFirstRound = this.SetFirstRound.bind(this);
-    this.NumberOfRounds=this.NumberOfRounds.bind(this);
     this.AddPlayer = this.AddPlayer.bind(this);
     this.create_games=this.create_games.bind(this);
+    this.PaulsFunction = this.PaulsFunction.bind(this);
+    this.GetScores = this.GetScores.bind(this);
   }
 
   create_games(seeds) {
@@ -43,9 +45,37 @@ class TournamentBracket extends React.Component{
     return shuffled_list;
   }
 
+  PaulsFunction(array){
+    var winningteams = [];
+      var arrayLength = array.length;
+      for(var matchup = 0; matchup < arrayLength; matchup++) {
+        var firstscore = array[matchup][2];
+        var secondscore = array[matchup][3];
+        if (firstscore > secondscore) {
+          winningteams.push(array[matchup][0]);
+        } else {
+          winningteams.push(array[matchup][1]);
+        }
+      }
+      var matchups = [];
+      var numGroups = arrayLength/2;
+      for(var group = 0; group < numGroups; group++) {
+        var match = [winningteams[2*group],winningteams[2*group+1]];
+        matchups.push(match);
+      }
+      return matchups;
+  }
+
+  GetScores(TeamA,TeamB,TeamAScores,TeamBScores){
+    let newScores = this.state.ScoreSheet;
+    newScores.push([TeamA,TeamB,TeamBScores,TeamBScores]);
+    this.setState({ScoreSheet:newScores});
+  }
+
   SetFirstRound(){
     this.setState({
         round1:this.create_games(this.state.playerList),
+        columns:Math.log2(this.create_games(this.state.playerList)),
     });
   }
 
@@ -55,17 +85,10 @@ class TournamentBracket extends React.Component{
     this.setState({playerList:newList});
   }
 
-  NumberOfRounds(){
-    //This will find the number of match columns to display based on round one
-    let numberOfInitialMatches = this.state.round1.length;
-    this.setState({columns:Math.log2(numberOfInitialMatches)});
-    return Math.log2(numberOfInitialMatches)
-  }
-
 
   render(){
     const columns = []
-    for(var i=0; i < this.NumberOfRounds ; i++){
+    for(var i=0; i < this.state.columns ; i++){
       columns.push(<tr><BracketColumn numberOfMatches={Math.pow(i,2)}/></tr>)
     }
     return(
@@ -82,8 +105,7 @@ class TournamentBracket extends React.Component{
               <Bracket
                 TeamA ={match[0]}
                 TeamB={match[1]}
-                TeamAScore = {4}
-                TeamBScore = {0}
+                GetScores = {this.GetScores}
               />
             )
           }
