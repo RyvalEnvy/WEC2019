@@ -25,16 +25,28 @@ function create_games(seeds) {
     if (seeds.length <= 0) {
         return;
     }
+    var n = seeds.length;
 
     // Return random list of seeds
-    var shuffled_list = seeds;
+    var shuffled_list = [];
+    for (var i = 0; i < n; i+=2) {
+        shuffled_list.push([seeds[i], seeds[i+1]]);
+    }
 
-    for (let i = n; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [shuffled_list[i], shuffled_list[j]] = [shuffled_list[j], shuffled_list[i]];
+    // Shuffles the list
+    for (var i = shuffled_list.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var temp = shuffled_list[i];
+        shuffled_list[i] = shuffled_list[j];
+        shuffled_list[j] = temp;
     }
 
     return shuffled_list;
        
 
 }
+
+// Test files
+seeds = ["Eddie", "Kiran", "Liam", "Paul"];
+console.log("seeds", seeds);
+console.log(create_games(seeds));
