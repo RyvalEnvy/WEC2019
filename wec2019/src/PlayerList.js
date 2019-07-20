@@ -40,6 +40,9 @@ class PlayerList extends React.Component{
         }}>
           Add Player
         </Button>
+        <Button onClick = {()=>this.props.SetFirstRound()}>
+          Setup Bracket
+        </Button>
       </div>
     )
   }
