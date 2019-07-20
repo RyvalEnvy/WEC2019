@@ -1,0 +1,16 @@
+tr{
+  text-align:left;
+}
+th{
+  text-align: left;
+}
+
+td,th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 4px;
+}
+
+tr,th {
+  font-size: 10px
+}
